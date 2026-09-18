@@ -1,563 +1,712 @@
-# Global Health Dataset — Data Cleaning & Validation Pipeline
+# 🌍 Global Health Dashboard
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
-![Pandas](https://img.shields.io/badge/Pandas-Data%20Processing-150458?logo=pandas)
-![NumPy](https://img.shields.io/badge/NumPy-Numerical%20Computing-013243?logo=numpy)
-![Status](https://img.shields.io/badge/Project%20Status-Data%20Preparation%20Complete-success)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?logo=streamlit)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?logo=pandas)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Machine%20Learning-F7931E?logo=scikit-learn)
+![Plotly](https://img.shields.io/badge/Plotly-Visualization-3F4F75?logo=plotly)
+![Status](https://img.shields.io/badge/Project%20Status-Complete-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A modular Python-based data cleaning, transformation, validation, and export pipeline for the **Global Health Dataset (2000–2024)**.
+An end-to-end **Global Health Analytics and Machine Learning application** for exploring health indicators, disease patterns, country-level differences, statistical relationships, trends, predictive models, and analytical reports.
 
-This project focuses on transforming a raw, inconsistent health dataset into a structured, validated, analysis-ready dataset through a reproducible data preparation workflow.
+The project combines a reproducible **data preparation and validation pipeline** with an interactive **Streamlit dashboard**, statistical analysis, machine learning, reporting, and export capabilities.
 
-> **Current checkpoint:** Raw data ingestion, auditing, cleaning, missing-value handling, transformation, validation, validation reporting, and cleaned-data export have been implemented.
-> **Machine learning, visualization, dashboard development, and advanced analytics are planned for subsequent stages and are not yet part of this checkpoint.**
-
----
-
-## Table of Contents
-
-* [Project Overview](#project-overview)
-* [Project Objectives](#project-objectives)
-* [Current Project Status](#current-project-status)
-* [Dataset Overview](#dataset-overview)
-* [Data Preparation Workflow](#data-preparation-workflow)
-
-  * [1. Data Extraction](#1-data-extraction)
-  * [2. Initial Data Audit](#2-initial-data-audit)
-  * [3. Text Cleaning](#3-text-cleaning)
-  * [4. Numeric Cleaning](#4-numeric-cleaning)
-  * [5. Missing-Value Handling](#5-missing-value-handling)
-  * [6. Data Transformation](#6-data-transformation)
-  * [7. Data Validation](#7-data-validation)
-  * [8. Validation Reporting](#8-validation-reporting)
-  * [9. Cleaned Data Export](#9-cleaned-data-export)
-* [Project Architecture](#project-architecture)
-* [Directory Structure](#directory-structure)
-* [Core Modules](#core-modules)
-* [Data Quality Challenges](#data-quality-challenges)
-* [Data Cleaning Strategy](#data-cleaning-strategy)
-* [Validation Strategy](#validation-strategy)
-* [Output Files](#output-files)
-* [Technology Stack](#technology-stack)
-* [How to Run the Pipeline](#how-to-run-the-pipeline)
-* [Pipeline Execution Flow](#pipeline-execution-flow)
-* [Reproducibility](#reproducibility)
-* [Current Limitations](#current-limitations)
-* [Future Development](#future-development)
-* [Project Status](#project-status)
-* [Author](#author)
+> **Important:** The Global Health Dataset used in this project is **synthetic data** created for analytical, educational, and software-development purposes. It should not be interpreted as real-world epidemiological statistics, medical evidence, official country rankings, or validated health forecasts.
 
 ---
 
-## Project Overview
+## 📑 Table of Contents
 
-The **Global Health Dataset — Data Cleaning & Validation Pipeline** is a data engineering and preparation project built around a global health dataset covering multiple countries, diseases, health indicators, and years.
+* [Project Overview](#-project-overview)
+* [Project Objectives](#-project-objectives)
+* [Key Features](#-key-features)
 
-The raw dataset contains inconsistencies that make direct analysis unreliable. These include:
-
-* Inconsistent country names
-* Inconsistent disease names
-* Numeric values stored as text
-* Missing values
-* Inconsistent categorical values
-* Potentially invalid or extreme observations
-* Formatting inconsistencies
-* Structural missingness across specific disease/indicator combinations
-* Data-type inconsistencies across columns
-
-The purpose of this project is to create a **reliable, structured, and validated dataset that can serve as the foundation for downstream analysis**.
-
-Rather than performing all analysis in a single script, the project uses a modular architecture where different stages of the data preparation process are handled by dedicated Python modules.
-
----
-
-## Project Objectives
-
-The main objectives of this stage of the project are to:
-
-1. Load and inspect the raw Global Health Dataset.
-2. Perform an initial audit of the dataset.
-3. Identify structural and data-quality issues.
-4. Standardize text and categorical fields.
-5. Convert numeric columns into appropriate numerical data types.
-6. Identify and handle missing values.
-7. Apply appropriate data transformations and derived fields.
-8. Detect and address problematic values and outliers where appropriate.
-9. Validate the resulting dataset.
-10. Generate a validation report.
-11. Export the cleaned dataset for downstream analysis.
-
-The primary goal is **data quality and analytical readiness**, not yet predictive modeling or dashboard development.
+  * [Interactive Dashboard](#interactive-dashboard)
+  * [Country Analysis](#country-analysis)
+  * [Disease Analysis](#disease-analysis)
+  * [Trend Analysis](#trend-analysis)
+  * [Statistical Analysis](#statistical-analysis)
+  * [Correlation Analysis](#correlation-analysis)
+  * [Composite Health Index Analysis](#composite-health-index-analysis)
+  * [Machine Learning](#machine-learning)
+  * [Data Explorer](#data-explorer)
+  * [Reports and Exports](#reports-and-exports)
+  * [Data Upload and Validation](#data-upload-and-validation)
+* [Dataset Overview](#-dataset-overview)
+* [Data Grain and Analytical Design](#-data-grain-and-analytical-design)
+* [Data Preparation Pipeline](#-data-preparation-pipeline)
+* [Dashboard Pages](#-dashboard-pages)
+* [Machine Learning Workflow](#-machine-learning-workflow)
+* [Reporting and Export Architecture](#-reporting-and-export-architecture)
+* [Project Structure](#-project-structure)
+* [Technology Stack](#-technology-stack)
+* [Installation](#-installation)
+* [Running the Application](#-running-the-application)
+* [Using the Dashboard](#-using-the-dashboard)
+* [Screenshots](#-screenshots)
+* [Data Quality and Missing Values](#-data-quality-and-missing-values)
+* [Statistical and Analytical Limitations](#-statistical-and-analytical-limitations)
+* [Testing and Error Handling](#-testing-and-error-handling)
+* [Performance and Caching](#-performance-and-caching)
+* [Reproducibility](#-reproducibility)
+* [Future Development](#-future-development)
+* [License](#-license)
+* [Author](#-author)
 
 ---
 
-# Current Project Status
+# 🌍 Project Overview
 
-### Completed
+The **Global Health Dashboard** is an end-to-end data analytics project built around a synthetic global health dataset covering multiple countries, diseases, years, healthcare indicators, socioeconomic variables, and health outcomes.
 
-* [x] Raw dataset ingestion
-* [x] Initial dataset inspection
-* [x] Data auditing
-* [x] Country-name standardization
-* [x] Disease-name standardization
-* [x] Text cleaning
-* [x] Numeric data cleaning
-* [x] Data-type conversion
-* [x] Missing-value investigation
-* [x] Missing-value handling
-* [x] Data transformations
-* [x] Derived-column preparation
-* [x] Outlier handling where appropriate
-* [x] Data validation
-* [x] Validation reporting
-* [x] Cleaned dataset export
-* [x] Validation report export
-
-### Not Yet Completed
-
-* [ ] Exploratory Data Analysis
-* [ ] Statistical analysis
-* [ ] Advanced visualization
-* [ ] Power BI dashboard
-* [ ] Machine learning models
-* [ ] Predictive analytics
-* [ ] Automated analytical reporting
-* [ ] Deployment
-
-These items belong to subsequent stages of the project.
-
----
-
-# Dataset Overview
-
-The project uses the **Global Health Dataset (2000–2024)**.
-
-The dataset contains health-related observations covering:
-
-* Multiple countries
-* Multiple diseases
-* Multiple years
-* Health indicators
-* Mortality-related measures
-* Incidence and prevalence indicators
-* Healthcare access indicators
-* Healthcare resource indicators
-* Treatment-related variables
-* Other global health metrics
-
-### Dataset Scope
-
-| Attribute                   | Description                     |
-| --------------------------- | ------------------------------- |
-| Dataset                     | Global Health Dataset           |
-| Period                      | 2000–2024                       |
-| Geographic Coverage         | Multiple countries              |
-| Disease Coverage            | Multiple diseases               |
-| Format                      | CSV                             |
-| Primary Processing Language | Python                          |
-| Main Data Tool              | Pandas                          |
-| Output                      | Cleaned CSV + Validation Report |
-
-### Countries Represented
-
-The dataset includes countries such as:
-
-* Argentina
-* Australia
-* Brazil
-* Canada
-* China
-* France
-* Germany
-* India
-* Indonesia
-* Italy
-* Japan
-* Mexico
-* Nigeria
-* Russia
-* Saudi Arabia
-* South Africa
-* South Korea
-* Turkey
-* United Kingdom
-* United States
-
-### Raw Dataset
-
-![Global Health Dataset raw CSV](data/screenshots/Global%20Health%20Dataset%20raw_csv.png)
-
----
-
-# Data Preparation Workflow
-
-The current implementation follows a modular ETL-style data preparation process:
+The project demonstrates the complete journey from **raw data to an interactive analytical product**:
 
 ```text
 Raw Dataset
-     │
-     ▼
-Data Extraction
-     │
-     ▼
-Initial Audit
-     │
-     ▼
-Text Cleaning
-     │
-     ▼
-Numeric Cleaning
-     │
-     ▼
-Missing-Value Handling
-     │
-     ▼
-Transformation
-     │
-     ▼
+     ↓
+Data Audit
+     ↓
+Cleaning & Transformation
+     ↓
 Validation
-     │
-     ▼
-Validation Report
-     │
-     ▼
-Cleaned Dataset Export
+     ↓
+Exploratory Analysis
+     ↓
+Statistical Analysis
+     ↓
+Visualization
+     ↓
+Machine Learning
+     ↓
+Reporting & Exports
+     ↓
+Interactive Dashboard
 ```
 
-Each stage has a specific responsibility.
+The project consists of two major layers:
 
-## 1. Data Extraction
+### 1. Data Engineering Layer
 
-The extraction stage is responsible for loading the raw dataset into the processing workflow.
-
-The pipeline is designed to work with the raw CSV files stored under:
+Located primarily in:
 
 ```text
-data/raw/
+src/
 ```
 
-Current raw files include:
+This layer handles:
+
+* Data extraction
+* Text cleaning
+* Numeric cleaning
+* Missing-value investigation
+* Validation
+* Auditing
+* Pipeline orchestration
+* Validation reporting
+* Export of processed data
+
+### 2. Analytics Application Layer
+
+Located in:
 
 ```text
-Global Health Dataset.csv
-Global Health Dataset - Copy.csv
+global_health_web_app/
 ```
 
-The extraction module provides a controlled entry point for bringing raw data into the pipeline before cleaning begins.
+This layer provides:
 
-## 2. Initial Data Audit
-
-Before modifying the data, the project performs an initial audit to understand the structure and quality of the raw dataset.
-
-The audit process examines areas such as:
-
-* Number of rows
-* Number of columns
-* Column names
-* Data types
-* Missing values
-* Unique values
-* Duplicate records
-* Categorical consistency
-* Numerical fields
-* Potential anomalies
-
-This step is important because cleaning decisions should be based on the actual condition of the dataset rather than assumptions.
-
-The auditing utilities are located in:
-
-```text
-src/utils/audit.py
-```
-
-## 3. Text Cleaning
-
-The text-cleaning stage standardizes textual and categorical fields.
-
-Examples include:
-
-### Country Names
-
-Country names are normalized so that different representations of the same country are mapped to a consistent value.
-
-For example, variations in country naming can be standardized into one canonical representation.
-
-### Disease Names
-
-Disease names are also normalized to prevent inconsistent categorical values from being treated as separate diseases during analysis.
-
-### General Text Standardization
-
-The cleaning process may include:
-
-* Removing unnecessary whitespace
-* Standardizing capitalization
-* Normalizing categorical labels
-* Replacing inconsistent naming patterns
-* Cleaning textual artifacts
-
-The implementation is contained in:
-
-```text
-src/text_cleaning.py
-```
-
-## 4. Numeric Cleaning
-
-The raw dataset contains numerical information that may initially be represented as strings or contain formatting issues.
-
-The numeric-cleaning stage converts applicable columns into appropriate numerical data types.
-
-This stage addresses issues such as:
-
-* Numeric values stored as strings
-* Non-numeric characters
-* Formatting inconsistencies
-* Invalid numeric representations
-* Conversion failures
-* Numerical ranges requiring inspection
-
-The implementation is contained in:
-
-```text
-src/numeric_cleaning.py
-```
-
-The objective is to ensure that numerical columns can be reliably used for:
-
-* Calculations
-* Aggregation
+* Interactive dashboards
+* Country analysis
+* Disease analysis
+* Trend analysis
+* Correlation analysis
 * Statistical analysis
-* Visualization
-* Future modeling
+* Composite Health Index analysis
+* Machine learning
+* Country clustering
+* Data exploration
+* Reports
+* Data exports
+* Application documentation
 
-## 5. Missing-Value Handling
+---
 
-Missing values were identified as one of the major data-quality challenges in the raw dataset.
+# 🎯 Project Objectives
 
-The project does not simply replace every missing value with a generic statistic.
+The project was designed to demonstrate an end-to-end approach to health-data analytics, including:
 
-Instead, missingness is investigated to determine whether it represents:
+* Preparing raw structured data for analysis
+* Investigating data quality before modelling
+* Preserving meaningful missing values
+* Exploring disease-level patterns
+* Comparing country-level health indicators
+* Analysing trends over time
+* Measuring relationships between health and socioeconomic indicators
+* Investigating the Composite Health Index
+* Performing descriptive statistical analysis
+* Identifying statistical outliers
+* Training and evaluating machine-learning models
+* Generating historical predictions
+* Producing future scenario projections
+* Performing country clustering
+* Generating analytical reports
+* Exporting analytical results
+* Providing a user-friendly interactive interface
 
-* Random missing data
-* Structural missingness
-* Indicator-specific missingness
-* Disease-specific missingness
-* Country-specific missingness
-* Data collection limitations
+---
 
-For example, some health indicators have systematic missing values for particular diseases rather than random missing observations.
+# 🚀 Key Features
 
-The missing-value processing is implemented in:
+## Interactive Dashboard
+
+The Streamlit application provides a centralized interface through which users can explore the dataset without directly interacting with Python or Pandas.
+
+Users can:
+
+* Review dataset coverage
+* Explore individual countries
+* Compare diseases
+* Examine historical trends
+* Investigate correlations
+* Analyse statistical distributions
+* Study the Composite Health Index
+* Train machine-learning models
+* Generate predictions
+* Explore country clusters
+* Export results
+* Generate reports
+
+---
+
+## Country Analysis
+
+The Country Analysis module provides country-level exploration of health indicators.
+
+It supports:
+
+* Country selection
+* Year selection
+* Indicator selection
+* Country-level KPIs
+* Historical trends
+* Country comparisons
+* Disease coverage
+* Country-level tables
+
+This allows users to investigate how selected health indicators vary between countries and across time.
+
+---
+
+## Disease Analysis
+
+The Disease Analysis module focuses on disease-level patterns.
+
+Users can:
+
+* Select diseases
+* Select a year
+* Select a health indicator
+* Compare selected diseases
+* Examine historical disease trends
+* View country-level disease data
+
+Available indicators include measures such as:
+
+* Incidence Rate
+* Prevalence Rate
+* Mortality Rate
+* Recovery Rate
+* DALYs
+* Composite Health Index
+
+---
+
+## Trend Analysis
+
+The Trends Analysis module allows users to investigate how health indicators change over time.
+
+Users can filter by:
+
+* Country
+* Disease
+* Year range
+* Indicator
+
+The module provides historical trend visualizations and summarized country-level trend data.
+
+---
+
+## Statistical Analysis
+
+The Statistical Analysis module provides descriptive and distributional analysis for selected indicators.
+
+It includes:
+
+* Mean
+* Median
+* Standard deviation
+* Minimum
+* Maximum
+* Variance
+* Skewness
+* Kurtosis
+* Quartiles
+* Interquartile range
+* IQR-based outlier detection
+
+Visualizations include:
+
+* Histograms
+* Box plots
+* Yearly trend charts
+* Country distributions
+
+The application uses the **1.5 × IQR rule** to identify statistical outliers.
+
+---
+
+## Correlation Analysis
+
+The Correlation Analysis module allows users to examine linear relationships between numerical health, healthcare, and socioeconomic indicators.
+
+It provides:
+
+* Correlation matrix
+* Interactive heatmap
+* Correlation coefficient table
+* Strongest relationship pairs
+* Relationship classifications
+* Composite Health Index relationships
+* Interpretation guidance
+
+Correlation values are treated as measures of **association**, not evidence of causation.
+
+---
+
+## Composite Health Index Analysis
+
+The Composite Health Index (CHI) is a project-specific health indicator used for deeper country-level analysis.
+
+The CHI module includes:
+
+* CHI overview
+* CHI trends
+* CHI relationships
+* Regression analysis
+* Residual analysis
+* Feature importance
+* Reverse-engineering analysis
+
+A key analytical consideration is that CHI is conceptually a **country-year measure**, rather than a disease-level measure.
+
+Therefore, analyses involving CHI are designed to respect its appropriate analytical grain.
+
+---
+
+## Machine Learning
+
+The Machine Learning module provides an end-to-end modelling environment.
+
+It includes:
+
+* Data preparation
+* Model training
+* Model evaluation
+* Prediction
+* Historical prediction
+* Future projection
+* Manual scenario analysis
+* Prediction interpretation
+* Feature importance
+* Country clustering
+* Machine-learning exports
+
+### Model Families
+
+The project includes regression models such as:
+
+* Linear Regression
+* Random Forest Regression
+* Gradient Boosting Regression
+
+### Evaluation Metrics
+
+Model evaluation includes metrics such as:
+
+* R²
+* Adjusted R² where applicable
+* Mean Absolute Error (MAE)
+* Root Mean Squared Error (RMSE)
+
+### Prediction
+
+The application supports prediction workflows for selected health indicators, including:
+
+* Historical predictions
+* Future projections
+* Manual scenarios
+
+Predictions are model-generated estimates based on the supplied synthetic dataset and should not be interpreted as validated real-world health forecasts.
+
+### Feature Importance
+
+Feature importance analysis helps identify which model inputs contribute most strongly to model predictions.
+
+### Country Clustering
+
+Countries can be grouped according to selected health, healthcare, and socioeconomic characteristics.
+
+The clustering workflow provides:
+
+* Cluster assignments
+* Cluster summaries
+* Country membership
+* PCA-based visualization
+
+Clusters are exploratory analytical groupings and should not be interpreted as official country classifications.
+
+---
+
+## Data Explorer
+
+The Data Explorer provides a more flexible way to inspect the underlying dataset.
+
+Users can:
+
+* Filter records
+* Select countries
+* Select diseases
+* Select years
+* Explore filtered records
+* Review summary information
+* Export filtered datasets
+
+Supported exports include:
+
+* CSV
+* Excel
+
+---
+
+## Reports and Exports
+
+The project provides several categories of downloadable output.
+
+### Dataset Exports
+
+* Cleaned Dataset → CSV
+* Filtered Dataset → CSV
+* Filtered Dataset → Excel
+
+### Analysis Exports
+
+* Trend Analysis
+* Correlation Analysis
+* Statistical Analysis
+* CHI Analysis
+
+### Machine Learning Exports
+
+* Model Evaluation
+* Predictions
+* Feature Importance
+* Country Clustering
+
+### Reports
+
+The reporting system supports:
+
+* PDF reports
+* PDF reports with charts
+* Interactive HTML reports
+* Email-based report delivery
+
+---
+
+## Data Upload and Validation
+
+The Data Upload module provides a controlled workflow for introducing datasets into the application.
+
+The project supports structured data sources including:
+
+* CSV
+* Excel
+* SQLite
+
+Uploaded datasets are checked for structural validity and required fields before being used for downstream analysis.
+
+The application also provides user-facing error messages for invalid or unsupported inputs.
+
+---
+
+# 📊 Dataset Overview
+
+The project uses the:
+
+**Global Health Dataset (2000–2024)**
+
+The synthetic dataset contains approximately:
+
+* **20 countries**
+* **20 diseases**
+* **25 years**
+* **10,000+ records**
+* **30 columns**
+
+### Major Data Categories
+
+| Category          | Example Variables                                             |
+| ----------------- | ------------------------------------------------------------- |
+| Identification    | Country, Year, Disease                                        |
+| Disease metrics   | Incidence, Prevalence, Mortality                              |
+| Population impact | Population Affected, DALYs                                    |
+| Healthcare        | Healthcare Access, Doctors per 1,000, Hospital Beds per 1,000 |
+| Outcomes          | Recovery Rate                                                 |
+| Health index      | Composite Health Index                                        |
+| Socioeconomic     | Per Capita Income, Education Index, Urbanization              |
+
+The original dataset is stored in:
 
 ```text
-src/missing_values.py
+data/raw/Global Health Dataset.csv
 ```
 
-The goal is to preserve meaningful information while preventing inappropriate imputation from introducing misleading data.
-
-## 6. Data Transformation
-
-After cleaning the individual fields, the pipeline performs additional transformations required to produce an analysis-ready dataset.
-
-Transformations may include:
-
-* Creating derived fields
-* Standardizing representations
-* Preparing analytical columns
-* Applying appropriate data types
-* Handling values identified during the cleaning stages
-* Structuring the final dataset for downstream analysis
-
-The transformation process is coordinated through the pipeline module:
-
-```text
-src/pipeline.py
-```
-
-The pipeline brings the individual cleaning components together into a reproducible workflow.
-
-## 7. Data Validation
-
-Cleaning a dataset does not automatically mean the resulting data is correct.
-
-For this reason, validation is performed after the cleaning and transformation stages.
-
-The validation process checks whether the resulting dataset satisfies expected quality conditions.
-
-Examples include:
-
-* Required columns are present
-* Expected data types are maintained
-* Missing values are within acceptable conditions
-* Country values are standardized
-* Disease values are standardized
-* Numeric columns contain valid numerical data
-* Invalid records are identified
-* Dataset structure remains consistent
-* Potential duplicate records are examined
-* Data ranges are inspected
-
-The validation implementation is located in:
-
-```text
-src/validation.py
-```
-
-## 8. Validation Reporting
-
-The validation stage is accompanied by a validation-report generation process.
-
-The purpose of the report is to provide a structured summary of the quality checks performed on the processed dataset.
-
-The validation reporting module is:
-
-```text
-src/validation_report.py
-```
-
-The resulting report is stored under:
-
-```text
-data/processed/
-```
-
-Current output:
-
-```text
-validation_report.csv
-```
-
-This provides an auditable record of the validation results rather than relying only on visual inspection.
-
-## 9. Cleaned Data Export
-
-Once the dataset passes through the cleaning, transformation, and validation stages, the processed dataset is exported for downstream use.
-
-The cleaned dataset is currently stored as:
+The processed dataset is stored in:
 
 ```text
 data/processed/Global Health Dataset_cleaned.csv
 ```
 
-The export functionality is handled through:
+The validation output is stored in:
 
 ```text
-src/export.py
+data/processed/validation_report.csv
 ```
 
-The project also contains export functionality within the broader application architecture for formats such as:
+---
 
-* CSV
-* Excel
-* SQLite
-* JSON
+# 🔬 Data Grain and Analytical Design
 
-However, the current project checkpoint primarily focuses on producing and preserving the validated cleaned dataset.
+One of the most important analytical considerations in this project is that different variables exist at different levels of observation.
 
-# Project Architecture
+## Disease-Level Grain
 
-The project follows a modular data-processing architecture rather than placing all operations inside a single Python script.
-
-The architecture can be summarized as:
+Most disease-specific indicators are represented at:
 
 ```text
-                    ┌─────────────────────┐
-                    │    Raw CSV Data     │
-                    │      data/raw       │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   Data Extraction   │
-                    │    extract.py       │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │     Data Audit      │
-                    │     audit.py        │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │    Text Cleaning    │
-                    │ text_cleaning.py    │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   Numeric Cleaning  │
-                    │ numeric_cleaning.py │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Missing Value       │
-                    │ Handling            │
-                    │ missing_values.py   │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   Transformation    │
-                    │     pipeline.py     │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │     Validation      │
-                    │    validation.py    │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Validation Report   │
-                    │ validation_report.py│
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   Cleaned Dataset   │
-                    │    data/processed   │
-                    └─────────────────────┘
+Country × Year × Disease
 ```
 
-# Directory Structure
+Examples include:
 
-The repository is organized as follows:
+* Incidence Rate
+* Prevalence Rate
+* Mortality Rate
+* Population Affected
+* DALYs
+* Recovery Rate
+
+## Country-Year Grain
+
+The Composite Health Index is treated conceptually as:
 
 ```text
-.
-├── .history/
-│   ├── src/
-│   │   ├── config_*.py
-│   │   ├── extract_*.py
-│   │   ├── missing_values_*.py
-│   │   ├── numeric_cleaning_*.py
-│   │   ├── pipeline_*.py
-│   │   ├── text_cleaning_*.py
-│   │   ├── validation_*.py
-│   │   ├── validation_report_*.py
-│   │   ├── export_*.py
-│   │   ├── main_*.py
-│   │   ├── test_*.py
-│   │   └── utils/
-│   │       └── audit_*.py
-│   └── utils/
-│       └── audit_*.py
+Country × Year
+```
+
+This distinction matters when performing:
+
+* Aggregation
+* Correlation analysis
+* Regression
+* Statistical analysis
+* Machine learning
+* Country comparisons
+
+The application therefore avoids treating repeated country-year measures as independent disease-level observations when the analytical question requires country-year aggregation.
+
+---
+
+# 🧹 Data Preparation Pipeline
+
+The project includes a modular data-cleaning and validation pipeline under:
+
+```text
+src/
+```
+
+The general workflow is:
+
+```text
+Raw Dataset
+     ↓
+Extraction
+     ↓
+Audit
+     ↓
+Text Cleaning
+     ↓
+Numeric Cleaning
+     ↓
+Missing-Value Investigation
+     ↓
+Transformation
+     ↓
+Validation
+     ↓
+Validation Report
+     ↓
+Cleaned Dataset
+```
+
+## Pipeline Modules
+
+### `config.py`
+
+Contains configuration and pipeline-related definitions.
+
+### `extract.py`
+
+Handles source-data extraction and loading.
+
+### `text_cleaning.py`
+
+Handles textual and categorical cleaning and standardization.
+
+### `numeric_cleaning.py`
+
+Handles numerical conversion and cleaning.
+
+### `missing_values.py`
+
+Investigates missing values and supports the missing-data workflow.
+
+### `pipeline.py`
+
+Coordinates the individual cleaning and validation stages.
+
+### `validation.py`
+
+Performs structural and data-quality validation.
+
+### `validation_report.py`
+
+Produces validation reporting output.
+
+### `export.py`
+
+Handles export of processed datasets.
+
+### `utils/audit.py`
+
+Provides auditing utilities for inspecting the dataset and pipeline results.
+
+---
+
+# 📑 Dashboard Pages
+
+The Streamlit application contains the following pages:
+
+| Page                         | Purpose                                           |
+| ---------------------------- | ------------------------------------------------- |
+| `01_Overview.py`             | Dataset overview and high-level health indicators |
+| `02_Country_Analysis.py`     | Country-level analysis and comparisons            |
+| `03_Disease_Analysis.py`     | Disease-level trends and comparisons              |
+| `04_CHI_Analysis.py`         | Composite Health Index analysis                   |
+| `05_Data_Explorer.py`        | Interactive dataset exploration                   |
+| `06_Data_Upload.py`          | Dataset upload and validation                     |
+| `07_Trends_Analysis.py`      | Historical trend analysis                         |
+| `08_Correlation_Analysis.py` | Correlation analysis                              |
+| `09_Statistical_Analysis.py` | Statistical analysis and outlier detection        |
+| `10_Machine_Learning.py`     | Machine learning and prediction                   |
+| `11_Reports.py`              | Reporting and exports                             |
+| `12_About.py`                | Project information and documentation             |
+
+---
+
+# 🤖 Machine Learning Workflow
+
+The machine-learning workflow is primarily implemented through:
+
+```text
+global_health_web_app/
+└── utils/
+    └── ml_models.py
+```
+
+The general workflow is:
+
+```text
+Dataset
+   ↓
+Feature Selection
+   ↓
+Data Preparation
+   ↓
+Model Training
+   ↓
+Model Evaluation
+   ↓
+Historical Prediction
+   ↓
+Future / Scenario Projection
+   ↓
+Interpretation
+   ↓
+Feature Importance
+   ↓
+Country Clustering
+```
+
+The modelling workflow is designed to separate target variables from predictors and reduce inappropriate target leakage.
+
+Future projections are explicitly model-based outputs rather than validated forecasts of real-world health outcomes.
+
+---
+
+# 📄 Reporting and Export Architecture
+
+Reporting functionality is separated into dedicated utility modules:
+
+```text
+global_health_web_app/
+└── utils/
+    ├── email_report.py
+    ├── html_report.py
+    └── pdf_report.py
+```
+
+This separation keeps reporting logic independent from individual dashboard pages.
+
+The reporting system can generate analytical outputs from the current application context and provide them as downloadable files or email reports.
+
+---
+
+# 🗂️ Project Structure
+
+```text
+C:.
+├── .gitignore
+├── LICENSE
+├── project_tree.txt
+├── README.md
+├── test_ml.py
 │
-├── data/
-│   ├── processed/
+├── .history/
+├── .venv/
+├── __pycache__/
+├── *.pyc
+│
+├── data
+│   ├── processed
 │   │   ├── Global Health Dataset_cleaned.csv
 │   │   └── validation_report.csv
 │   │
-│   ├── raw/
-│   │   ├── Global Health Dataset.csv
-│   │   └── Global Health Dataset - Copy.csv
+│   ├── raw
+│   │   └── Global Health Dataset.csv
 │   │
-│   └── screenshots/
+│   └── screenshots
 │       ├── config_module.png
 │       ├── export_module.png
 │       ├── extract_module.png
@@ -572,11 +721,78 @@ The repository is organized as follows:
 │       ├── validation_report_csv.png
 │       └── validation_report_module.png
 │
-├── database/
+├── database
 │
-├── reports/
+├── global_health_web_app
+│   ├── .env
+│   ├── .gitignore
+│   ├── app.py
+│   ├── README.md
+│   ├── requirements.txt
+│   │
+│   ├── app
+│   │   ├── main.py
+│   │   ├── __init__.py
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── services
+│   │   └── utils
+│   │
+│   ├── assets
+│   │   ├── about.png
+│   │   ├── chi_analysis.png
+│   │   ├── corr_analysis.png
+│   │   ├── country_analysis.png
+│   │   ├── data_explorer.png
+│   │   ├── data_upload.png
+│   │   ├── disease_analysis.png
+│   │   ├── machine_learning.png
+│   │   ├── overview.png
+│   │   ├── reports.png
+│   │   ├── stats_analysis.png
+│   │   └── trends_analysis.png
+│   │
+│   ├── data
+│   │   └── Global Health Dataset_cleaned.csv
+│   │
+│   ├── pages
+│   │   ├── 01_Overview.py
+│   │   ├── 02_Country_Analysis.py
+│   │   ├── 03_Disease_Analysis.py
+│   │   ├── 04_CHI_Analysis.py
+│   │   ├── 05_Data_Explorer.py
+│   │   ├── 06_Data_Upload.py
+│   │   ├── 07_Trends_Analysis.py
+│   │   ├── 08_Correlation_Analysis.py
+│   │   ├── 09_Statistical_Analysis.py
+│   │   ├── 10_Machine_Learning.py
+│   │   ├── 11_Reports.py
+│   │   └── 12_About.py
+│   │
+│   ├── styles
+│   │   └── style.css
+│   │
+│   ├── tests
+│   │
+│   └── utils
+│       ├── calculations.py
+│       ├── charts.py
+│       ├── data_loader.py
+│       ├── email_report.py
+│       ├── helpers.py
+│       ├── html_report.py
+│       ├── ml_models.py
+│       ├── pdf_report.py
+│       ├── style.py
+│       └── __init__.py
 │
-└── src/
+├── notebooks
+│   ├── 01_exploratory_data_analysis.ipynb
+│   └── rough.ipynb
+│
+├── reports
+│
+└── src
     ├── config.py
     ├── export.py
     ├── extract.py
@@ -588,262 +804,84 @@ The repository is organized as follows:
     ├── text_cleaning.py
     ├── validation.py
     ├── validation_report.py
+    ├── __init__.py
     │
-    └── utils/
+    └── utils
         ├── audit.py
         └── __init__.py
 ```
 
-# Directory Responsibilities
-
-| Directory         | Purpose                                                   |
-| ----------------- | --------------------------------------------------------- |
-| `data/raw/`       | Original/raw datasets                                     |
-| `data/processed/` | Cleaned datasets and validation outputs                   |
-| `database/`       | Reserved for database-related processing                  |
-| `reports/`        | Reserved for future analytical/report outputs             |
-| `src/`            | Main project source code                                  |
-| `src/utils/`      | Reusable utility functions                                |
-| `.history/`       | Development/history files generated during implementation |
-
-The .history/ directory contains development snapshots and is not part of the core production pipeline.
-
-# Core Modules
-
-## config.py
-
-Contains project-level configuration and settings used by the pipeline.
-
-![config.py module](data/screenshots/config_module.png)
-
-## extract.py
-
-Responsible for loading the raw dataset into the processing workflow.
-
-![extract.py module](data/screenshots/extract_module.png)
-
-## text_cleaning.py
-
-Handles textual and categorical standardization, including country and disease names.
-
-![text\_cleaning.py module](data/screenshots/text_cleaning_module.png)
-
-## numeric_cleaning.py
-
-Handles conversion and cleaning of numerical columns.
-
-![numeric\_cleaning.py module](data/screenshots/numeric_cleaning_module.png)
-
-## missing_values.py
-
-Investigates and handles missing values based on their characteristics and context.
-
-![missing\_values.py module](data/screenshots/missing_values_module.png)
-
-## pipeline.py
-
-Coordinates the different cleaning and transformation stages into a reproducible workflow.
-
-![pipeline.py module](data/screenshots/pipeline_module.png)
-
-## validation.py
-
-Performs post-cleaning data-quality checks.
-
-![validation.py module](data/screenshots/validation_module.png)
-
-## validation_report.py
-
-Generates a structured report summarizing validation results.
-
-![validation\_report.py module](data/screenshots/validation_report_module.png)
-
-## export.py
-
-Handles the export of processed data into supported formats.
-
-![export.py module](data/screenshots/export_module.png)
-
-## utils/audit.py
-
-Provides reusable auditing functionality for examining dataset structure and quality.
-
-## main.py
-
-Serves as the main execution entry point for the application/pipeline.
-
-![main.py module](data/screenshots/main_module.png)
-
-## test.py
-
-Contains testing functionality used during development to verify components of the data-processing workflow.
-
-# Data Quality Challenges
-
-Several data-quality issues were encountered during the preparation of the dataset.
-
-## 1. Inconsistent Data Types
-
-A significant number of columns were initially represented as object rather than appropriate numerical or categorical data types.
-
-This required explicit type conversion and numerical cleaning.
-
-## 2. Missing Values
-
-The initial audit identified missing values across the dataset.
-
-Importantly, not all missing values represented the same problem.
-
-Some missing values followed identifiable patterns associated with particular diseases, indicators, or countries.
-
-Therefore, missingness had to be investigated before determining an appropriate treatment strategy.
-
-## 3. Inconsistent Country Names
-
-Country labels required standardization to ensure that the same country was not represented by multiple categorical values.
-
-## 4. Inconsistent Disease Names
-
-Disease labels also required normalization to ensure consistent grouping and analysis.
-
-## 5. Structural Missingness
-
-Some indicators contain systematic missing values for particular diseases.
-
-For example, certain neurological diseases may not have incidence or prevalence values available in the same way as infectious diseases.
-
-Such patterns should not automatically be treated as ordinary random missing values.
-
-## 6. Potential Outliers
-
-Numerical variables were inspected for extreme observations.
-
-Where appropriate, outlier handling was incorporated into the cleaning workflow while avoiding indiscriminate removal of potentially meaningful observations.
-
-# Data Cleaning Strategy
-
-The project follows a principle of cleaning based on context rather than blindly modifying values.
-
-The general strategy is:
-
-```text
-Identify
-   ↓
-Investigate
-   ↓
-Determine Cause
-   ↓
-Apply Appropriate Treatment
-   ↓
-Validate
-```
-
-This is particularly important for missing values and outliers.
-
-For example, replacing every missing value with the mean could create artificial patterns and distort subsequent analysis.
-
-The objective is therefore not simply to achieve a dataset with zero missing values, but to produce a dataset whose values and structure are appropriate for downstream analytical use.
-
-# Validation Strategy
-
-Validation occurs after the cleaning and transformation stages.
-
-The project validates the processed dataset across several dimensions.
-
-## Structural Validation
-
-Checks that:
-
-* Expected columns exist
-* Dataset structure remains intact
-* Records can be processed correctly
-
-## Data-Type Validation
-
-Checks that:
-
-* Numerical columns contain numerical data
-* Year is represented appropriately
-* Categorical fields remain categorical/textual
-
-## Missing-Value Validation
-
-Checks:
-
-* Remaining missing values
-* Missing-value patterns
-* Columns requiring further attention
-
-## Categorical Validation
-
-Checks:
-
-* Country-name consistency
-* Disease-name consistency
-* Unexpected categorical values
-
-## Numerical Validation
-
-Checks:
-
-* Invalid numerical values
-* Unexpected ranges
-* Potential anomalies
-* Outlier-related conditions
-
-The validation process creates a separate validation report so that data-quality decisions can be reviewed independently from the cleaned dataset.
-
-# Output Files
-
-The current processed outputs are stored in:
-
-```text
-data/processed/
-```
-
-## Cleaned Dataset
-
-### Global Health Dataset_cleaned.csv
-
-This is the primary output of the current data-preparation stage.
-
-It represents the dataset after the implemented cleaning, transformation, and processing steps.
-
-![Global Health Dataset cleaned CSV](data/screenshots/Global%20Health%20Dataset%20cleaned_csv.png)
-
-## Validation Report
-
-### validation_report.csv
-
-This contains the results of the validation process applied to the processed dataset.
-
-![Validation report CSV](data/screenshots/validation_report_csv.png)
-
-# Technology Stack
-
-## Programming Language
-
-Python 3.13
+### Directory Responsibilities
+
+| Directory                       | Purpose                                                 |
+| ------------------------------- | ------------------------------------------------------- |
+| `data/raw/`                     | Original raw dataset                                    |
+| `data/processed/`               | Cleaned dataset and validation output                   |
+| `data/screenshots/`             | Data-pipeline screenshots                               |
+| `src/`                          | Data preparation, validation, and pipeline code         |
+| `global_health_web_app/`        | Streamlit application                                   |
+| `global_health_web_app/pages/`  | Dashboard pages                                         |
+| `global_health_web_app/utils/`  | Analytics, charts, ML, reporting, and styling utilities |
+| `global_health_web_app/assets/` | Dashboard screenshots and visual assets                 |
+| `notebooks/`                    | Exploratory notebooks                                   |
+| `database/`                     | Database resources                                      |
+| `reports/`                      | Report outputs                                          |
+
+Development-specific directories such as `.venv/`, `.history/`, `__pycache__/`, and compiled `.pyc` files are not required for normal application use.
+
+---
+
+# 🛠️ Technology Stack
+
+## Programming
+
+* Python 3.13
 
 ## Data Processing
 
 * Pandas
 * NumPy
 
-## File Processing
+## Visualization
+
+* Plotly
+* Plotly Express
+* Streamlit
+
+## Machine Learning
+
+* Scikit-learn
+* Linear Regression
+* Random Forest Regression
+* Gradient Boosting Regression
+* PCA
+
+## Data Storage and File Formats
 
 * CSV
 * Excel
 * SQLite
 * JSON
 
+## Reporting
+
+* PDF generation
+* HTML reporting
+* Email reporting
+* CSV export
+* Excel export
+
 ## Development
 
+* Git
+* GitHub
+* Virtual environments
+* Jupyter Notebook
 * Modular Python architecture
-* Reusable functions
-* Validation and testing modules
 
-# How to Run the Pipeline
+---
+
+# 💻 Installation
 
 ## 1. Clone the Repository
 
@@ -852,264 +890,429 @@ git clone <repository-url>
 cd <repository-directory>
 ```
 
-## 2. Install Dependencies
+## 2. Create a Virtual Environment
 
-If a requirements file is provided:
+### Windows
+
+```powershell
+python -m venv .venv
+```
+
+Activate it:
+
+```powershell
+.venv\Scripts\activate
+```
+
+### macOS / Linux
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+## 3. Install Dependencies
+
+Move into the application directory:
+
+```bash
+cd global_health_web_app
+```
+
+Install the dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Alternatively, install the primary data-processing libraries:
+Then return to the project root:
 
 ```bash
-pip install pandas numpy
+cd ..
 ```
 
-## 3. Place the Raw Dataset
+---
 
-Place the source CSV file inside:
-
-```text
-data/raw/
-```
-
-For example:
-
-```text
-data/raw/Global Health Dataset.csv
-```
-
-## 4. Run the Pipeline
+# ▶️ Running the Application
 
 From the project root:
 
 ```bash
-python src/main.py
+streamlit run global_health_web_app/app.py
 ```
 
-The exact execution behavior depends on the current configuration in src/config.py.
+Streamlit will provide a local URL in the terminal.
 
-## 5. Review the Outputs
+Open the URL in your browser to launch the dashboard.
 
-After processing, inspect:
+---
+
+# 📘 Using the Dashboard
+
+A recommended workflow is:
+
+1. Start with **Overview** to understand the dataset.
+2. Review **Data Upload** if working with a new dataset.
+3. Use **Country Analysis** to investigate individual countries.
+4. Use **Disease Analysis** to investigate disease-level patterns.
+5. Explore the **Composite Health Index**.
+6. Use **Trends Analysis** to examine changes over time.
+7. Use **Correlation Analysis** to examine relationships between indicators.
+8. Use **Statistical Analysis** to investigate distributions and outliers.
+9. Use **Data Explorer** for detailed filtering and record-level exploration.
+10. Use **Machine Learning** for model training and prediction.
+11. Use **Reports** to generate downloadable or email-based outputs.
+12. Use **About** for project documentation, scope, privacy information, and usage guidance.
+
+---
+
+# 🖼️ Screenshots
+
+The project includes screenshots from both the interactive dashboard and the underlying data-engineering pipeline.
+
+## Dashboard Overview
+
+![Global Health Dashboard Overview](global_health_web_app/assets/overview.png)
+
+## Country Analysis
+
+![Country Analysis](global_health_web_app/assets/country_analysis.png)
+
+## Disease Analysis
+
+![Disease Analysis](global_health_web_app/assets/disease_analysis.png)
+
+## Trends Analysis
+
+![Trends Analysis](global_health_web_app/assets/trends_analysis.png)
+
+## Correlation Analysis
+
+![Correlation Analysis](global_health_web_app/assets/corr_analysis.png)
+
+## Machine Learning
+
+![Machine Learning](global_health_web_app/assets/machine_learning.png)
+
+## Reports
+
+![Reports](global_health_web_app/assets/reports.png)
+
+---
+
+## Data Engineering Pipeline
+
+### Raw Dataset
+
+![Raw Global Health Dataset](data/screenshots/Global%20Health%20Dataset%20raw_csv.png)
+
+### Cleaned Dataset
+
+![Cleaned Global Health Dataset](data/screenshots/Global%20Health%20Dataset%20cleaned_csv.png)
+
+### Pipeline
+
+![Data Cleaning Pipeline](data/screenshots/pipeline_module.png)
+
+### Validation Report
+
+![Validation Report](data/screenshots/validation_report_csv.png)
+
+These screenshots provide visual evidence of both the **data-engineering workflow** and the **final analytics application**.
+
+---
+
+# 🧪 Data Quality and Missing Values
+
+Data quality is treated as an analytical concern rather than simply a preprocessing step.
+
+The pipeline investigates:
+
+* Missing values
+* Duplicate records
+* Data types
+* Text inconsistencies
+* Numeric inconsistencies
+* Invalid values
+* Structural problems
+* Country naming consistency
+* Disease naming consistency
+* Validation rules
+* Potential anomalies
+
+## Missing Data Philosophy
+
+The project does **not** automatically fill every missing value simply to make the dataset appear complete.
+
+Missing values may reflect:
+
+* Data availability
+* Country-specific coverage
+* Disease-specific coverage
+* Time-specific coverage
+* Collection limitations
+* Structural missingness
+
+Therefore, missing values are investigated according to context rather than blindly imputed.
+
+This approach helps reduce the risk of introducing artificial patterns into statistical and machine-learning analyses.
+
+---
+
+# ⚠️ Statistical and Analytical Limitations
+
+This project is an analytics and software-development project, not a clinical or epidemiological decision-support system.
+
+## Synthetic Dataset
+
+The dataset is synthetic.
+
+Therefore:
+
+* Results should not be interpreted as real-world health statistics.
+* Relationships should not be used for medical decisions.
+* Predictions should not be interpreted as actual forecasts.
+* Country comparisons should not be treated as official rankings.
+
+## Correlation Does Not Imply Causation
+
+A strong correlation between two variables does not demonstrate that one variable causes the other.
+
+## Machine-Learning Predictions
+
+Machine-learning outputs are estimates generated from the supplied dataset and model assumptions.
+
+They are not validated medical forecasts.
+
+## Composite Health Index
+
+The Composite Health Index is a project-specific analytical measure.
+
+It is not an official global health ranking or internationally validated health index.
+
+## Outliers
+
+An observation identified using the 1.5 × IQR rule is not automatically an error.
+
+Some statistical outliers may represent legitimate variation within the dataset.
+
+## Analytical Grain
+
+Different variables exist at different levels of observation.
+
+Care must therefore be taken when combining:
 
 ```text
-data/processed/Global Health Dataset_cleaned.csv
+Country × Year
 ```
 
 and:
 
 ```text
-data/processed/validation_report.csv
+Country × Year × Disease
 ```
 
-These files represent the main deliverables of the current checkpoint.
+measurements.
 
-# Pipeline Execution Flow
+---
 
-The conceptual execution sequence is:
+# 🧪 Testing and Error Handling
 
-```text
-1. Load raw dataset
-        ↓
-2. Audit dataset
-        ↓
-3. Clean text fields
-        ↓
-4. Clean numeric fields
-        ↓
-5. Investigate missing values
-        ↓
-6. Handle missing values
-        ↓
-7. Apply transformations
-        ↓
-8. Validate processed data
-        ↓
-9. Generate validation report
-        ↓
-10. Export cleaned dataset
-```
+The application has undergone testing across major operational workflows, including:
 
-This structure makes it possible to modify or improve individual stages without rewriting the entire project.
-
-# Reproducibility
-
-One of the main goals of the project is to make the cleaning process reproducible.
-
-Instead of manually editing the CSV file, the cleaning logic is implemented programmatically through dedicated Python modules.
-
-This provides several advantages:
-
-* The same cleaning process can be rerun.
-* Cleaning decisions are documented in code.
-* Individual stages can be tested independently.
-* Data-quality checks can be repeated.
-* Future changes can be incorporated into the pipeline.
-* The resulting dataset can be regenerated from the raw source.
-
-The .history/ directory contains development snapshots created during implementation and experimentation.
-
-The primary reproducible workflow is maintained under:
-
-```text
-src/
-```
-
-# Current Limitations
-
-This checkpoint intentionally focuses on data preparation.
-
-The following capabilities are not yet implemented as completed project stages:
-
-* Exploratory Data Analysis
-* Statistical hypothesis testing
-* Advanced analytical visualization
-* Interactive dashboards
-* Machine learning
-* Predictive modeling
-* Automated business/analytical reporting
-* Production deployment
-
-The cleaned dataset produced at this stage is intended to serve as the foundation for these future stages.
-
-# Future Development
-
-The project will evolve from data preparation into a broader global health analytics project.
-
-Planned subsequent stages include:
-
-## Phase 2 — Exploratory Data Analysis
-
-* Univariate analysis
-* Bivariate analysis
-* Multivariate analysis
-* Trend analysis
-* Country comparisons
-* Disease comparisons
-* Correlation analysis
-* Distribution analysis
-
-## Phase 3 — Data Visualization
-
-Development of meaningful visualizations to communicate health trends and relationships across:
-
-* Countries
-* Diseases
-* Years
-* Health indicators
-
-## Phase 4 — Advanced Analytics
-
-Potential analytical areas include:
-
-* Statistical analysis
-* Relationship analysis
-* Health indicator comparisons
-* Country-level health profiling
-* Disease trend analysis
-
-## Phase 5 — Machine Learning
-
-Potential future modeling work may include:
-
-* Mortality prediction
-* Recovery-rate prediction
-* Treatment-cost forecasting
+* Normal application startup
+* Data loading
+* Dataset upload
+* Unsupported file handling
+* Malformed file handling
+* Missing required columns
+* Empty analysis selections
+* Insufficient machine-learning data
+* Model training
+* Model evaluation
+* Historical prediction
+* Future projection
+* Feature importance
 * Country clustering
+* Report generation
+* Email validation
+* Export operations
+* Page navigation
+* Browser refresh
+* Streamlit rerun stability
 
-These are future objectives, not completed features of the current checkpoint.
+The application is designed to provide user-facing errors and warnings instead of exposing raw Python tracebacks during normal interaction.
 
-## Phase 6 — Dashboard Development
+---
 
-The cleaned and validated dataset can eventually serve as the data foundation for an interactive analytics dashboard.
+# ⚡ Performance and Caching
 
-Potential technologies include:
+Because Streamlit reruns application code when users interact with controls, the project uses caching selectively to reduce unnecessary computation.
 
-* Power BI
-* Streamlit
-* Plotly
+`st.cache_data` is used for reusable or computationally expensive operations such as:
 
-## Phase 7 — Reporting & Deployment
+* Dataset metadata preparation
+* Filtered analytical datasets
+* Statistical calculations
+* Correlation matrices
+* Trend preparation
+* Chart preparation
+* Machine-learning preparation
+* Export generation
+* Report-related processing
 
-Future development may include:
+Caching is applied selectively rather than indiscriminately so that interactive elements remain responsive without unnecessarily caching simple display operations.
 
-* Automated analytical reports
-* Interactive reports
-* Dashboard deployment
-* Automated report distribution
+---
 
-# Project Status
+# 🔁 Reproducibility
 
-## Current Milestone: Data Cleaning & Validation Complete
+The project emphasizes reproducibility through:
+
+* Programmatic data cleaning
+* Modular pipeline components
+* Explicit validation rules
+* Reusable utility functions
+* Cached analytical operations
+* Structured dashboard pages
+* Dedicated reporting utilities
+* Version-controlled source code
+
+The dataset-cleaning workflow is implemented through Python modules rather than manual spreadsheet editing.
+
+This makes the workflow easier to:
+
+* Inspect
+* Repeat
+* Test
+* Debug
+* Extend
+
+---
+
+# 🔮 Future Development
+
+Potential future improvements include:
+
+* Additional statistical tests
+* More advanced predictive modelling
+* Additional machine-learning algorithms
+* Expanded feature-selection techniques
+* Additional clustering approaches
+* Automated scheduled reporting
+* Expanded automated testing
+* Additional dashboard visualizations
+* More advanced data-quality monitoring
+* Additional deployment configurations
+
+The current modular architecture is intended to make future extensions easier without requiring a complete rewrite of the application.
+
+---
+
+# 📜 License
+
+This project is distributed under the license included in:
 
 ```text
-Raw Dataset
-     │
-     ▼
-Extraction                    ✅
-     │
-     ▼
-Initial Audit                 ✅
-     │
-     ▼
-Text Cleaning                 ✅
-     │
-     ▼
-Numeric Cleaning              ✅
-     │
-     ▼
-Missing-Value Handling        ✅
-     │
-     ▼
-Transformation                ✅
-     │
-     ▼
-Validation                    ✅
-     │
-     ▼
-Validation Report             ✅
-     │
-     ▼
-Cleaned Dataset Export        ✅
-     │
-     ▼
-Exploratory Analysis          🔜
-     │
-     ▼
-Visualization                 🔜
-     │
-     ▼
-Advanced Analytics            🔜
-     │
-     ▼
-Machine Learning              🔜
-     │
-     ▼
-Dashboard                     🔜
+LICENSE
 ```
 
-The current checkpoint represents a complete data preparation foundation on which the subsequent analytical stages can be built.
+Please review the license file for the applicable terms of use and distribution.
 
-# Author
+---
 
-**Chigozie Nnoli**
+# 👤 Author
 
-Data Analyst | Business Intelligence | Python | SQL | Power BI | Excel
+## Chigozie Nnoli
 
-# Profiles
+**Data Analyst & Business Intelligence Professional**
 
-* GitHub: https://github.com/gozzy15/
-* Portfolio: https://gozzydanalyst.my.canva.site
-* LinkedIn: https://www.linkedin.com/in/chigozie-nnoli
+### Profiles
 
-# Final Note
+* **GitHub:** https://github.com/gozzy15/
+* **Portfolio:** https://gozzydanalyst.my.canva.site
+* **LinkedIn:** https://www.linkedin.com/in/chigozie-nnoli
 
-This repository is being developed incrementally.
+---
 
-Rather than waiting until the entire project is finished, major development milestones are documented and shared as the project progresses.
+# 📌 Project Summary
 
-This checkpoint focuses specifically on transforming a raw global health dataset into a cleaned, validated, and analysis-ready dataset through a modular Python data-processing pipeline.
+The **Global Health Dashboard** brings together:
 
-The next stage will build analytical insights on top of this foundation.
+* Data engineering
+* Data cleaning
+* Data validation
+* Exploratory data analysis
+* Statistical analysis
+* Data visualization
+* Correlation analysis
+* Composite Health Index analysis
+* Machine learning
+* Predictive modelling
+* Country clustering
+* Reporting
+* Data exports
+* Interactive dashboard development
+
+The complete workflow can be summarized as:
+
+```text
+                 GLOBAL HEALTH ANALYTICS
+                         │
+                         ▼
+                  ┌──────────────┐
+                  │   Raw Data   │
+                  └──────┬───────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Audit & Data Quality │
+              └──────────┬──────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Cleaning & Validation│
+              └──────────┬──────────┘
+                         │
+                         ▼
+                ┌────────────────┐
+                │ Exploratory    │
+                │ Analysis       │
+                └───────┬────────┘
+                        │
+            ┌───────────┼───────────┐
+            ▼           ▼           ▼
+       Statistics  Correlations   Trends
+            │           │           │
+            └───────────┼───────────┘
+                        ▼
+                ┌────────────────┐
+                │ CHI Analysis   │
+                └───────┬────────┘
+                        │
+                        ▼
+                ┌────────────────┐
+                │ Machine        │
+                │ Learning       │
+                └───────┬────────┘
+                        │
+             ┌──────────┼──────────┐
+             ▼          ▼          ▼
+        Prediction  Clustering  Feature
+                               Importance
+             │          │          │
+             └──────────┼──────────┘
+                        ▼
+                ┌────────────────┐
+                │ Reports &      │
+                │ Exports        │
+                └───────┬────────┘
+                        │
+                        ▼
+                ┌────────────────┐
+                │ Interactive     │
+                │ Dashboard       │
+                └────────────────┘
+```
+
+The project demonstrates an end-to-end approach to transforming structured health data into a reproducible, interactive analytical product while maintaining attention to **data quality, analytical grain, statistical interpretation, machine-learning limitations, and responsible use of synthetic data**.

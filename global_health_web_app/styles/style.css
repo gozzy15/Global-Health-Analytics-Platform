@@ -1,0 +1,146 @@
+/* =========================================================
+   GLOBAL HEALTH DASHBOARD
+   Global Stylesheet
+   ========================================================= */
+
+/* ---------- App Background ---------- */
+
+.stApp {
+    background-color: #f5f7fa;
+}
+
+/* ---------- Main Content ---------- */
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1400px;
+}
+
+/* ---------- Main Title ---------- */
+
+.dashboard-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #17324d;
+    margin-bottom: 0.25rem;
+}
+
+.dashboard-subtitle {
+    font-size: 1rem;
+    color: #667085;
+    margin-bottom: 2rem;
+}
+
+/* ---------- Section Headers ---------- */
+
+.section-title {
+    font-size: 1.35rem;
+    font-weight: 650;
+    color: #17324d;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ---------- KPI Cards ---------- */
+
+.kpi-card {
+    background-color: #ffffff;
+    border: 1px solid #e4e7ec;
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    min-height: 120px;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #667085;
+    margin-bottom: 0.45rem;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #17324d;
+}
+
+.kpi-description {
+    font-size: 0.78rem;
+    color: #98a2b3;
+    margin-top: 0.35rem;
+}
+
+/* ---------- Chart Containers ---------- */
+
+.chart-card {
+    background-color: #ffffff;
+    border: 1px solid #e4e7ec;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+/* ---------- Data Containers ---------- */
+
+.data-card {
+    background-color: #ffffff;
+    border: 1px solid #e4e7ec;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ---------- Sidebar ---------- */
+
+section[data-testid="stSidebar"] {
+    background-color: #17324d;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #ffffff;
+}
+
+/* ---------- Sidebar Navigation ---------- */
+
+section[data-testid="stSidebar"] a {
+    color: #ffffff !important;
+}
+
+/* ---------- Buttons ---------- */
+
+.stButton > button {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* ---------- Select Boxes ---------- */
+
+div[data-baseweb="select"] > div {
+    border-radius: 8px;
+}
+
+/* ---------- Tables ---------- */
+
+div[data-testid="stDataFrame"] {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* ---------- Alerts ---------- */
+
+div[data-testid="stAlert"] {
+    border-radius: 8px;
+}
+
+/* ---------- Hide Streamlit Branding ---------- */
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}

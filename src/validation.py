@@ -10,7 +10,7 @@ requirements.
 
 import pandas as pd
 
-from config import (
+from .config import (
     COUNTRY_YEAR_COLUMNS,
     VALID_RANGES,
 )

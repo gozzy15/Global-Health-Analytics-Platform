@@ -10,13 +10,14 @@ All data-processing logic is delegated to the project's
 specialized modules.
 """
 
-from config import (
+from .config import (
     RAW_PATH,
-    CLEANED_DATA_PATH,
+    CLEANED_DATA_PATH_1,
+    CLEANED_DATA_PATH_2,
     VALIDATION_REPORT_PATH,
 )
-from pipeline import run_pipeline
-from export import (
+from .pipeline import run_pipeline
+from .export import (
     save_cleaned_data,
     save_validation_report,
 )
@@ -65,17 +66,28 @@ def main() -> None:
     # --------------------------------------------------
     print("\n[2] Exporting cleaned dataset...")
 
-    cleaned_export_report = save_cleaned_data(
+    cleaned_export_report_1 = save_cleaned_data(
         clean_df,
-        CLEANED_DATA_PATH,
+        CLEANED_DATA_PATH_1,
+    )
+
+    cleaned_export_report_2 = save_cleaned_data(
+        clean_df,
+        CLEANED_DATA_PATH_2,
     )
 
     print(
-        "✓ Cleaned dataset exported successfully."
+        "✓ Cleaned dataset exported successfully to both paths."
     )
+
     print(
-        f"  Output: "
-        f"{cleaned_export_report['Output Path']}"
+        f"  Output 1: "
+        f"{cleaned_export_report_1['Output Path']}"
+    )
+
+    print(
+        f"  Output 2: "
+        f"{cleaned_export_report_2['Output Path']}"
     )
 
     # --------------------------------------------------
@@ -118,7 +130,8 @@ def main() -> None:
 
     print(
         "\nOutputs:"
-        f"\n  • {cleaned_export_report['Output Path']}"
+        f"\n  • {cleaned_export_report_1['Output Path']}"
+        f"\n  • {cleaned_export_report_2['Output Path']}"
         f"\n  • {validation_export_report['Output Path']}"
     )
 

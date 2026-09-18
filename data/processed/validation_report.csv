@@ -4,7 +4,7 @@ Structural Missing Values,Passed,"Preserved 11,000 structural missing values acr
 Improvement in 5 Years (%),Passed,"Preserved 2,002 structural missing values (earliest years lack sufficient historical data)."
 Duplicate Records,Passed,Removed 5 duplicate records based on all fields except row_num.
 Age Distribution,Passed,Repaired 4 rows with invalid or missing age percentages.
-Healthcare Access Repair,Passed,Corrected 5 Healthcare Access values exceeding 100%.
+Healthcare Access Repair,Passed,Corrected 0 Healthcare Access values exceeding 100%.
 Urban/Rural Distribution,Passed,Adjusted 702 rows so Urban + Rural = 100%.
 Gender Population Consistency,Passed,Male + Female population equals Population affected for all checked rows.
 Population Constraint,Passed,Population affected never exceeds Country population.

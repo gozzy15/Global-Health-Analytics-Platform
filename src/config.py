@@ -16,9 +16,11 @@ RAW_PATH = "data/raw/Global Health Dataset.csv"
 
 PROCESSED_DIR = "data/processed"
 
-CLEANED_DATA_PATH = (
+CLEANED_DATA_PATH_1 = (
     f"{PROCESSED_DIR}/Global Health Dataset_cleaned.csv"
 )
+
+CLEANED_DATA_PATH_2 = "global_health_web_app/data/Global Health Dataset_cleaned.csv"
 
 VALIDATION_REPORT_PATH = (
     f"{PROCESSED_DIR}/validation_report.csv"
@@ -50,7 +52,7 @@ COLUMN_RENAME_MAP = {
     "Country_pop": "country_pop",
     "Incidence Rate mn (%)": "incidence_rate_pct",
     "Prevalence rate (%)": "prevalence_rate_pct",
-    "Mortality Rate per 100 people (%)": "mortality_rate_pct",
+    "Mortality Rate per 100 people (%)": "mortality_rate_per_100_people_pct",
     "Population affected": "population_affected",
     "Pop_affected(Male)": "pop_affected_male",
     "Pop_affected(Female)": "pop_affected_female",
@@ -280,6 +282,7 @@ CURRENCY_COLUMNS = [
 COUNTRY_CORRECTIONS = {
     "It@l¥": "Italy",
     "It@lĄ": "Italy",
+    "It@lÂ¥": "Italy",
     "T?u?r?k?e?y?": "Turkey",
     "Can@da": "Canada",
     "Mex!co": "Mexico",

@@ -12,7 +12,7 @@ from typing import Any
 
 import pandas as pd
 
-from config import (
+from .config import (
     COUNTRY_CORRECTIONS,
     DISEASE_CORRECTIONS,
     TREATMENT_MAP,

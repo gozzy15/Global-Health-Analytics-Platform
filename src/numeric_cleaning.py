@@ -10,7 +10,7 @@ statistics for each processed column.
 import numpy as np
 import pandas as pd
 
-from config import NUMERIC_COLUMNS
+from .config import NUMERIC_COLUMNS
 
 
 def clean_numeric_value(value) -> float:

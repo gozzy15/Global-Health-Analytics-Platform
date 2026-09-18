@@ -1,0 +1,19 @@
+.env# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Environment / secrets
+.env
+.env.*
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db

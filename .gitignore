@@ -7,9 +7,10 @@ __pycache__/
 venv/
 .venv/
 env/
+global_health_web_app/.venv/
 
 # Environment variables
-.env
+global_health_web_app/.env
 
 # VS Code
 .vscode/
@@ -23,3 +24,7 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+project_tree.txt
+
+notebooks/

@@ -10,7 +10,7 @@ missing-value preservation, and identifier validation.
 
 import pandas as pd
 
-from config import (
+from .config import (
     IDENTIFIER_COLUMNS,
     STRUCTURAL_MISSING_COLUMNS,
     PEER_COUNTRIES,
