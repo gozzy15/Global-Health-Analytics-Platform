@@ -7,3 +7,4 @@ openpyxl
 reportlab
 kaleido
 python-dotenv
+scikit-learn
