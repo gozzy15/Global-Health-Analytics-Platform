@@ -32,10 +32,10 @@ st.markdown(
     designed to explore, understand, and model patterns in global
     health data.
 
-    The application brings together data exploration,
-    statistical analysis, Composite Health Index analysis,
-    machine learning, predictive modeling, and automated
-    reporting within a single interactive environment.
+    The application brings together data exploration, statistical
+    analysis, Composite Health Index analysis, machine learning,
+    predictive modeling, and automated reporting within a single
+    interactive environment.
     """
 )
 
@@ -50,6 +50,7 @@ st.markdown(
     tab_reporting_technology,
     tab_usage,
     tab_scope_project,
+    tab_author,
 ) = st.tabs(
     [
         "📖 Overview",
@@ -57,6 +58,7 @@ st.markdown(
         "📤 Reporting & Technology",
         "📘 Usage Guide",
         "🔒 Scope & Project",
+        "👤 Author",
     ]
 )
 
@@ -71,11 +73,16 @@ with tab_overview:
 
     st.markdown(
         """
-        The Global Health Dashboard provides a structured environment
-        for transforming health data into meaningful analytical
-        insights.
+        The **Global Health Dashboard** provides a structured
+        environment for transforming health data into meaningful
+        analytical insights.
 
-        It is designed to support the complete analytical workflow:
+        It is designed to support a complete data analytics
+        workflow, from data preparation and exploration through
+        statistical analysis, visualization, machine learning,
+        prediction, and reporting.
+
+        Key capabilities include:
 
         - Data preparation and validation
         - Exploratory data analysis
@@ -85,14 +92,15 @@ with tab_overview:
         - Machine learning
         - Predictive modeling
         - Country-level analysis
-        - Data export
+        - Data exploration and filtering
+        - Data and analytical exports
         - Automated report generation
         - Email-based report delivery
 
-        The application is intended to demonstrate how data
-        engineering, statistical analysis, visualization, and
-        machine learning can be combined into a practical
-        data-driven system.
+        The application demonstrates how data engineering,
+        statistical analysis, visualization, business intelligence,
+        and machine learning can be combined into a practical
+        data-driven analytical system.
         """
     )
 
@@ -103,7 +111,7 @@ with tab_overview:
     st.markdown(
         """
         The primary purpose of the dashboard is to make complex
-        health data easier to explore and interpret.
+        health data easier to explore, analyze, and interpret.
 
         Rather than relying on isolated analyses or static tables,
         the application provides an interactive environment where
@@ -111,9 +119,12 @@ with tab_overview:
         diseases, and years.
 
         The dashboard also provides analytical and predictive tools
-        that help investigate relationships between healthcare,
-        socioeconomic conditions, disease indicators, and overall
+        for investigating relationships between healthcare,
+        socioeconomic conditions, disease indicators, and broader
         health outcomes.
+
+        The application is intended primarily for analytical,
+        educational, and demonstration purposes.
         """
     )
 
@@ -180,6 +191,7 @@ with tab_data_analytics:
             - Outlier analysis
             - Distribution analysis
             - Trend analysis
+            - Statistical relationships between indicators
             """
         )
 
@@ -192,10 +204,11 @@ with tab_data_analytics:
             The Composite Health Index analysis examines:
 
             - CHI trends
-            - Country-level CHI performance
-            - Correlations with health indicators
+            - Country-level CHI patterns
+            - Relationships with health indicators
+            - Correlation analysis
             - Regression analysis
-            - Multicollinearity
+            - Multicollinearity diagnostics
             - Feature importance
             - Country clustering
             """
@@ -209,25 +222,32 @@ with tab_data_analytics:
         """
         The machine-learning component investigates whether
         historical health, healthcare, demographic, and
-        socioeconomic information can be used to predict
-        health outcomes.
+        socioeconomic information can be used to model and predict
+        selected health outcomes.
 
-        The current prediction workflow uses **Incidence Rate (%)**
-        as the target variable.
+        Supported prediction targets include:
 
-        The machine-learning section includes:
+        - **Incidence Rate (%)**
+        - **Mortality Rate (%)**
+        - **Recovery Rate (%)**
+
+        The machine-learning workflow includes:
 
         - Data preparation
         - Time-based train/test splitting
         - Model training
         - Model evaluation
-        - Future predictions
+        - Historical and future predictions
+        - Manual prediction scenarios
         - Feature importance
         - Country clustering
         - Model evaluation exports
         - Prediction exports
         - Feature-importance exports
         - Country-clustering exports
+
+        Prediction results are analytical model outputs and should
+        not be interpreted as guaranteed future outcomes.
         """
     )
 
@@ -242,8 +262,8 @@ with tab_reporting_technology:
 
     st.markdown(
         """
-        The dashboard provides multiple ways to preserve and
-        communicate analytical results.
+        The dashboard provides multiple ways to preserve,
+        communicate, and reuse analytical results.
 
         Available outputs include:
 
@@ -272,8 +292,9 @@ with tab_reporting_technology:
         - Interactive HTML reports
         - Email delivery of generated reports
 
-        Generated reports are designed to provide a convenient
-        summary of the analytical results outside the dashboard.
+        Generated reports are designed to provide convenient
+        analytical summaries that can be reviewed outside the
+        dashboard.
         """
     )
 
@@ -283,9 +304,10 @@ with tab_reporting_technology:
 
     st.markdown(
         """
-        The Global Health Dashboard is built using a collection
-        of Python-based data, statistical, machine-learning,
-        visualization, reporting, and application technologies.
+        The Global Health Dashboard is built using Python-based
+        technologies for data processing, statistical analysis,
+        machine learning, visualization, reporting, and web
+        application development.
         """
     )
 
@@ -309,8 +331,8 @@ with tab_reporting_technology:
             Used for numerical operations and data processing.
 
             **Scikit-learn**  
-            Used for machine-learning models, feature
-            importance, prediction, and country clustering.
+            Used for machine-learning models, prediction,
+            feature importance, and country clustering.
 
             **Statsmodels**  
             Used for statistical modelling, regression analysis,
@@ -343,8 +365,8 @@ with tab_reporting_technology:
             Used to generate Excel-based analytical exports.
 
             **python-dotenv**  
-            Used to load environment variables for application
-            configuration, including email-reporting settings.
+            Used for environment-based application configuration,
+            including email-reporting settings.
             """
         )
 
@@ -355,13 +377,17 @@ with tab_reporting_technology:
     st.markdown(
         """
         The application follows a modular architecture in which
-        data loading, cleaning, analysis, machine learning,
+        data loading, calculations, analysis, machine learning,
         visualization, reporting, and email functionality are
         separated into reusable components.
 
-        This structure allows individual parts of the system to be
-        maintained, tested, and extended without unnecessarily
+        This structure helps individual parts of the system remain
+        maintainable, testable, and extensible without unnecessarily
         coupling the entire application together.
+
+        The architecture also supports caching and reusable
+        analytical functions to improve application performance
+        during repeated interactions.
         """
     )
 
@@ -422,8 +448,8 @@ with tab_usage:
         Use **Data Explorer** when you want to interactively
         filter the dataset.
 
-        You can explore the available records by selecting
-        countries, diseases, years, and other available filters.
+        You can explore available records by selecting countries,
+        diseases, years, and other available filters.
 
         Filtered datasets can also be exported in CSV and Excel
         formats.
@@ -461,8 +487,8 @@ with tab_usage:
     st.markdown(
         """
         Use **CHI Analysis** to investigate the Composite Health
-        Index and its relationship with other health,
-        healthcare, demographic, and socioeconomic indicators.
+        Index and its relationship with other health, healthcare,
+        demographic, and socioeconomic indicators.
 
         The section includes correlation analysis, regression
         analysis, multicollinearity diagnostics, feature
@@ -474,9 +500,9 @@ with tab_usage:
 
     st.markdown(
         """
-        Use **Machine Learning** to train models, evaluate model
-        performance, generate predictions, examine feature
-        importance, and explore country-level clustering.
+        Use **Machine Learning** to prepare data, train models,
+        evaluate model performance, generate predictions, examine
+        feature importance, and explore country-level clustering.
 
         Prediction results should be interpreted as analytical
         outputs rather than guaranteed future outcomes.
@@ -519,8 +545,7 @@ with tab_usage:
 
     st.markdown(
         """
-        **Explore → Filter → Analyze → Visualize → Model →
-        Export → Report**
+        **Explore → Filter → Analyze → Visualize → Model → Export → Report**
 
         Start by exploring the data, investigate trends and
         statistical relationships, examine the Composite Health
@@ -668,9 +693,130 @@ with tab_scope_project:
 
             **Development Approach:**
 
-            Modular, reusable, and analytical workflow-oriented.
+            Modular, reusable, analytical, and
+            workflow-oriented.
             """
         )
+
+
+# =========================================================
+# TAB 6 — AUTHOR
+# =========================================================
+
+with tab_author:
+
+    st.header("About the Author")
+
+    st.markdown(
+        """
+        **Chigozie Nnoli** is a **Data Analyst and Business
+        Intelligence professional** with a background in **Physics
+        with Electronics** and professional training in **Data
+        Analytics, Data Science, Machine Learning, and Python**
+        through **ALX Africa**.
+
+        His work focuses on transforming raw and complex datasets
+        into meaningful insights through data cleaning, exploratory
+        analysis, statistical analysis, data visualization,
+        business intelligence, machine learning, and analytical
+        automation.
+
+        The Global Health Dashboard reflects this approach by
+        combining data preparation, analytical exploration,
+        statistical modelling, machine learning, visualization,
+        and reporting into a single end-to-end application.
+        """
+    )
+
+    st.divider()
+
+    st.header("Professional Focus")
+
+    focus_col1, focus_col2 = st.columns(2)
+
+    with focus_col1:
+
+        st.markdown(
+            """
+            **Core Areas**
+
+            - Data Analytics
+            - Business Intelligence
+            - SQL
+            - Python
+            - Excel
+            - Power BI
+            - Data Cleaning & Transformation
+            - Exploratory Data Analysis
+            """
+        )
+
+    with focus_col2:
+
+        st.markdown(
+            """
+            **Advanced Areas**
+
+            - Statistical Analysis
+            - Data Visualization
+            - Machine Learning
+            - Predictive Modelling
+            - Feature Analysis
+            - Data Automation
+            - Analytical Reporting
+            - AI-Powered Analytics
+            """
+        )
+
+    st.divider()
+
+    st.header("Connect")
+
+    st.markdown(
+        """
+        Explore more of Chigozie's work, projects, and professional
+        background through the links below.
+        """
+    )
+
+    link_col1, link_col2, link_col3 = st.columns(3)
+
+    with link_col1:
+
+        st.markdown(
+            """
+            **GitHub**
+
+            [View Projects](https://github.com/gozzy15/)
+            """
+        )
+
+    with link_col2:
+
+        st.markdown(
+            """
+            **Portfolio**
+
+            [View Portfolio](https://gozzydanalyst.my.canva.site)
+            """
+        )
+
+    with link_col3:
+
+        st.markdown(
+            """
+            **LinkedIn**
+
+            [Connect on LinkedIn](https://www.linkedin.com/in/chigozie-nnoli)
+            """
+        )
+
+    st.divider()
+
+    st.caption(
+        "This project was developed as part of an end-to-end "
+        "data analytics and machine-learning portfolio."
+    )
 
 
 # =========================================================

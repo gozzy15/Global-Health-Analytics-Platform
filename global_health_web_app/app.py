@@ -94,12 +94,6 @@ if data_available:
         icon="📊",
     )
 
-    data_explorer_page = st.Page(
-        "pages/05_Data_Explorer.py",
-        title="Data Explorer",
-        icon="🔎",
-    )
-
     trends_analysis_page = st.Page(
         "pages/07_Trends_Analysis.py",
         title="Trends Analysis",
@@ -124,6 +118,12 @@ if data_available:
         icon="🤖",
     )
 
+    data_explorer_page = st.Page(
+        "pages/05_Data_Explorer.py",
+        title="Data Explorer",
+        icon="🔎",
+    )
+
     reports_page = st.Page(
         "pages/11_Reports.py",
         title="Reports",
@@ -143,11 +143,11 @@ if data_available:
                 country_analysis_page,
                 disease_analysis_page,
                 chi_analysis_page,
-                data_explorer_page,
                 trends_analysis_page,
                 corr_analysis_page,
                 stats_analysis_page,
                 machine_learning_page,
+                data_explorer_page,
                 reports_page,
                 about_page,
             ],
